@@ -8,7 +8,7 @@ const menuItems = [
       {
         icon: "/dashboard-basic.png",
         label: "Basic",
-        href: "/dashboard-basic",
+        href: "/basic",
         visible: ["admin"],
       },
     ],
@@ -35,7 +35,7 @@ const menuItems = [
         visible: ["admin"],
       },
       {
-        icon: "/dashboard-basicpng",
+        icon: "/dashboard-basic.png",
         label: "Trainimg",
         href: "/list/trainings",
         visible: ["admin"],
