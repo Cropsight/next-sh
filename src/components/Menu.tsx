@@ -35,7 +35,7 @@ const menuItems = [
         visible: ["admin"],
       },
       {
-        icon: "/master-ics.png",
+        icon: "/dashboard-basicpng",
         label: "Trainimg",
         href: "/list/trainings",
         visible: ["admin"],
