@@ -1,0 +1,51 @@
+-- AlterTable
+ALTER TABLE "Farmer" ADD COLUMN     "idIcs" INTEGER,
+ALTER COLUMN "nik" DROP NOT NULL,
+ALTER COLUMN "npwp" DROP NOT NULL,
+ALTER COLUMN "updatedAt" DROP NOT NULL,
+ALTER COLUMN "updatedBy" DROP NOT NULL,
+ALTER COLUMN "address" DROP NOT NULL,
+ALTER COLUMN "birthdate" DROP NOT NULL,
+ALTER COLUMN "birthplace" DROP NOT NULL,
+ALTER COLUMN "joinDate" DROP NOT NULL,
+ALTER COLUMN "kwd" DROP NOT NULL,
+ALTER COLUMN "urlImage" DROP NOT NULL;
+
+-- CreateTable
+CREATE TABLE "Plot" (
+    "id" SERIAL NOT NULL,
+    "parcelCode" TEXT,
+    "area" DOUBLE PRECISION NOT NULL,
+    "polygon" geometry,
+    "farmerId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" INTEGER NOT NULL,
+    "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedBy" INTEGER,
+
+    CONSTRAINT "Plot_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ICS" (
+    "id" SERIAL NOT NULL,
+    "icsId" TEXT,
+    "name" TEXT NOT NULL,
+    "estDate" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" INTEGER NOT NULL,
+    "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedBy" INTEGER,
+    "subDistrictId" TEXT NOT NULL,
+
+    CONSTRAINT "ICS_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Farmer" ADD CONSTRAINT "Farmer_idIcs_fkey" FOREIGN KEY ("idIcs") REFERENCES "ICS"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Plot" ADD CONSTRAINT "Plot_farmerId_fkey" FOREIGN KEY ("farmerId") REFERENCES "Farmer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ICS" ADD CONSTRAINT "ICS_subDistrictId_fkey" FOREIGN KEY ("subDistrictId") REFERENCES "SubDistrict"("id") ON DELETE CASCADE ON UPDATE CASCADE;

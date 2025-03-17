@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SysUser {
+  id       Int    @id @default(autoincrement())
+  uid      String
+  username String @unique
+  password String
+  role     String
+  status   Int    @db.SmallInt
+}
+
+model Farmer {
+  id           Int          @id @default(autoincrement())
+  farmerId     String
+  name         String
+  nik          String?
+  npwp         String?
+  gender       String
+  urlImage     String?
+  birthplace   String?
+  birthdate    DateTime?
+  address      String?
+  kwd          String?
+  joinDate     DateTime?
+  farmerStatus FarmerStatus
+  activeStatus ActiveStatus
+
+  idVillage String
+  village   Village @relation(fields: [idVillage], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  idIcs     Int?
+  ics       ICS?    @relation(fields: [idIcs], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  createdBy Int
+  updatedAt DateTime? @default(now())
+  updatedBy Int?
+
+  plots Plot[]
+}
+
+model Plot {
+  id         Int    @id @default(autoincrement())
+  parcelCode String?
+  area       Float
+  polygon   Unsupported("geometry")?
+
+  farmerId  Int
+  farmer    Farmer                  @relation(fields: [farmerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime                @default(now())
+  createdBy Int
+  updatedAt DateTime?                @default(now())
+  updatedBy Int?
+}
+
+model ICS {
+  id        Int      @id @default(autoincrement())
+  icsId     String?
+  name      String
+  estDate   DateTime?
+  createdAt DateTime @default(now())
+  createdBy Int
+  updatedAt DateTime? @default(now())
+  updatedBy Int?
+
+  subDistrictId String
+  subDistrict   SubDistrict @relation(fields: [subDistrictId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  farners Farmer[]
+}
+
+// Master Region
+
+model Village {
+  id            String      @id
+  name          String
+  status        Int         @db.SmallInt
+  subDistrictId String
+  subDistrict   SubDistrict @relation(fields: [subDistrictId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  farmers Farmer[]
+}
+
+model SubDistrict {
+  id         String   @id
+  name       String
+  status     Int      @db.SmallInt
+  districtId String
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  villages Village[]
+  icss     ICS[]
+}
+
+model District {
+  id         String   @id
+  name       String
+  status     Int      @db.SmallInt
+  provinceId String
+  province   Province @relation(fields: [provinceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  subDistricts SubDistrict[]
+}
+
+model Province {
+  id     String @id
+  name   String
+  status Int    @db.SmallInt
+
+  districts District[]
+}
+
+// ENUM
+
+enum FarmerStatus {
+  REGISTERED
+  RESERVED
+  PARTICIPANT
+}
+
+enum ActiveStatus {
+  ACTIVE
+  INACTIVE
+}
