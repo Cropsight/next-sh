@@ -15,6 +15,7 @@ model SysUser {
   uid      String
   username String @unique
   password String
+  fullname String?
   role     String
   status   Int    @db.SmallInt
 }
@@ -28,10 +29,10 @@ model Farmer {
   gender       String
   urlImage     String?
   birthplace   String?
-  birthdate    DateTime?
+  birthdate    DateTime? @db.Date
   address      String?
   kwd          String?
-  joinDate     DateTime?
+  joinDate     DateTime? @db.Date
   farmerStatus FarmerStatus
   activeStatus ActiveStatus
 
