@@ -39,7 +39,7 @@ model Farmer {
   idVillage String
   village   Village @relation(fields: [idVillage], references: [id], onDelete: Cascade, onUpdate: Cascade)
   idIcs     Int?
-  ics       ICS?    @relation(fields: [idIcs], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ics       Ics?    @relation(fields: [idIcs], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   createdBy Int
@@ -64,7 +64,7 @@ model Plot {
   updatedBy Int?
 }
 
-model ICS {
+model Ics {
   id        Int      @id @default(autoincrement())
   icsId     String?
   name      String
@@ -100,7 +100,7 @@ model SubDistrict {
   district   District @relation(fields: [districtId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   villages Village[]
-  icss     ICS[]
+  icss     Ics[]
 }
 
 model District {

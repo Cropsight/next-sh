@@ -17,8 +17,8 @@ const CountCard = ({ caption, count, iconSrc }: CountCardProps) => {
     <div className="rounded-2xl bg-white p-4 shadow-md flex flex-col gap-2">
       <h2 className="capitalize text-sm font-medium text-gray-400 text-left">{caption}</h2>
       <div className="flex items-center justify-between w-full">
-        <Image src={iconSrc} alt="icon" width={64} height={64} className="object-contain opacity-50" />
-        <h1 className="text-6xl font-bold text-right">{formatCount(count)}</h1>
+        <Image src={iconSrc} alt="icon" width={64} height={64} className="object-contain opacity-30" />
+        <h1 className="text-5xl font-semibold text-right">{formatCount(count)}</h1>
       </div>
     </div>
   );
