@@ -6,13 +6,14 @@ type CountCardProps = {
   iconSrc: string;
 };
 
-const formatCount = (count: number) => {
+const formatCount = (count?: number) => {
+  if (!count) return "0"; // Handle undefined/null count
   if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(2)}M`;
   if (count >= 1_000) return `${(count / 1_000).toFixed(2)}K`;
   return count.toLocaleString();
 };
 
-const CountCard = ({ caption, count, iconSrc }: CountCardProps) => {
+const CountCard = ({ caption, count=0, iconSrc }: CountCardProps) => {
   return (
     <div className="rounded-2xl bg-white p-4 shadow-md flex flex-col gap-2">
       <h2 className="capitalize text-sm font-medium text-gray-400 text-left">{caption}</h2>

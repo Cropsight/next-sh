@@ -11,13 +11,13 @@ datasource db {
 }
 
 model SysUser {
-  id       Int    @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   uid      String
-  username String @unique
+  username String  @unique
   password String
   fullname String?
   role     String
-  status   Int    @db.SmallInt
+  status   Int     @db.SmallInt
 }
 
 model Farmer {
@@ -29,10 +29,10 @@ model Farmer {
   gender       String
   urlImage     String?
   birthplace   String?
-  birthdate    DateTime? @db.Date
+  birthdate    DateTime?    @db.Date
   address      String?
   kwd          String?
-  joinDate     DateTime? @db.Date
+  joinDate     DateTime?    @db.Date
   farmerStatus FarmerStatus
   activeStatus ActiveStatus
 
@@ -41,7 +41,7 @@ model Farmer {
   idIcs     Int?
   ics       Ics?    @relation(fields: [idIcs], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   createdBy Int
   updatedAt DateTime? @default(now())
   updatedBy Int?
@@ -50,29 +50,30 @@ model Farmer {
 }
 
 model Plot {
-  id         Int    @id @default(autoincrement())
+  id         Int                      @id @default(autoincrement())
   parcelCode String?
   area       Float
-  polygon   Unsupported("geometry")?
+  polygon    Unsupported("geometry")?
 
-  farmerId  Int
-  farmer    Farmer                  @relation(fields: [farmerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  farmerId Int
+  farmer   Farmer @relation(fields: [farmerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  createdAt DateTime                @default(now())
+  createdAt DateTime  @default(now())
   createdBy Int
-  updatedAt DateTime?                @default(now())
+  updatedAt DateTime? @default(now())
   updatedBy Int?
 }
 
 model Ics {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   icsId     String?
   name      String
   estDate   DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   createdBy Int
   updatedAt DateTime? @default(now())
   updatedBy Int?
+  status    Int       @default(1) @db.SmallInt
 
   subDistrictId String
   subDistrict   SubDistrict @relation(fields: [subDistrictId], references: [id], onDelete: Cascade, onUpdate: Cascade)
