@@ -25,6 +25,7 @@ const DashboardICS = () => {
 
   const [icsList, setIcsList] = useState<ICS[]>([]);
   const [icsCount, setIcsCount] = useState(0);
+  const [farmerCount, setFarmerCount] = useState(0);
 
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
@@ -176,6 +177,7 @@ const DashboardICS = () => {
       {/* Cards Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         <CountCard caption="ICS" count={icsCount} iconSrc="/master-ics.png" />
+        <CountCard caption="Farmers" count={icsCount} iconSrc="/master-farmer.png" />
       </div>
     </div>
   );
