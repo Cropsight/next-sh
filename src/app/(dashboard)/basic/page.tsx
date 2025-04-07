@@ -97,22 +97,28 @@ const DashboardICS = () => {
   useEffect(() => {
     const fetchICSCount = async () => {
       try {
-        let url = "/api/ics";
+        let url_ics = "/api/ics";
+        let url_farmer = "/api/farmers";
+        let add_url = "";
 
         if (ics !== "all") {
-          url += `?id=${ics}`;
+          add_url += `?id=${ics}`;
         } else if (district !== "all") {
-          url += `?districtId=${district}`;
+          add_url += `?districtId=${district}`;
         } else if (province) {
-          url += `?provinceId=${province}`;
+          add_url += `?provinceId=${province}`;
         }
 
-        console.log("Fetching ICS count from:", url);
-        const res = await fetch(url);
-        const data: ICS[] = await res.json();
+        url_ics += add_url;
+        url_farmer += add_url;
 
-        console.log("Fetched ICS count:", data.length);
-        setIcsCount(data.length);
+        const res_ics = await fetch(url_ics);
+        const data_ics: ICS[] = await res_ics.json();
+        const res_farmer = await fetch(url_farmer);
+        const data_farmer = await res_farmer.json();
+
+        setIcsCount(data_ics.length);
+        setFarmerCount(data_farmer.count);
       } catch (error) {
         console.error("Failed to fetch ICS count", error);
       }
@@ -177,7 +183,50 @@ const DashboardICS = () => {
       {/* Cards Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         <CountCard caption="ICS" count={icsCount} iconSrc="/master-ics.png" />
-        <CountCard caption="Farmers" count={icsCount} iconSrc="/master-farmer.png" />
+        <CountCard
+          caption="Total Farmers"
+          count={8_056}
+          // count={farmerCount}
+          iconSrc="/all-farmers.png"
+        />
+        <CountCard
+          caption="Trained Farmers"
+          count={7_357}
+          // count={farmerCount}
+          iconSrc="/trained-farmer.png"
+        />
+        <CountCard
+          caption="Un - Trained Farmers"
+          count={699}
+          // count={farmerCount}
+          iconSrc="/farmer-male.png"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+        <CountCard
+          caption="Total Registered Farmers (RF)"
+          count={6_503}
+          // count={farmerCount}
+          iconSrc="/all-farmers.png"
+        />
+        <CountCard
+          caption="RF - Trained"
+          count={5_804}
+          // count={farmerCount}
+          iconSrc="/trained-farmer.png"
+        />
+        <CountCard
+          caption="RF - Male"
+          count={5_183}
+          // count={farmerCount}
+          iconSrc="/un-trained-farmers.png"
+        />
+        <CountCard
+          caption="RF - Female"
+          count={1_320}
+          // count={farmerCount}
+          iconSrc="/farmer-female.png"
+        />
       </div>
     </div>
   );
